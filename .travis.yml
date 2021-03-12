@@ -11,14 +11,18 @@ before_script:
   - echo "no tests"
 script:
   - docker --version # print the version for logging
-  - docker build -t udagram-users-api -f udagram-users-api/Dockerfile .
+  - cd udagram-users-api/
+  - docker build -t udagram-users-api -f Dockerfile .
   - docker tag udagram-users-api sanchimenea/udagram-users-api:latest
-  - docker build -t udagram-feed-api -f udagram-feed-api/Dockerfile .
+  - cd ../udagram-feed-api/
+  - docker build -t udagram-feed-api -f Dockerfile .
   - docker tag udagram-feed-api sanchimenea/udagram-feed-api:latest
-  - docker build -t udagram-frontend -f udagram-frontend/Dockerfile .
+  - cd ../udagram-frontend/
+  - docker build -t udagram-frontend -f Dockerfile .
   - docker tag udagram-frontend sanchimenea/udagram-frontend:latest
+  - cd ../
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push sanchimenea/udagram-users-api
   - docker push sanchimenea/udagram-feed-api
-  - docker push sanchimenea/udagram-front-end
+  - docker push sanchimenea/udagram-frontend
