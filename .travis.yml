@@ -20,7 +20,10 @@ script:
   - cd ../udagram-frontend/
   - docker build -t udagram-frontend -f Dockerfile .
   - docker tag udagram-frontend sanchimenea/udagram-frontend:latest
-  - cd ../
+  - cd ../reverse-proxy/
+  - docker build -t reverse-proxy -f Dockerfile . 
+  - docker tag reverse-proxy sanchimenea/reverse-proxy:latest
+
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push sanchimenea/udagram-users-api
