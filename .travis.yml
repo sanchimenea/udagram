@@ -1,0 +1,24 @@
+language: node_js
+node_js:
+  - 13
+services:
+  - docker
+# Pre-testing installs
+install:
+  - echo "nothing needs to be installed"
+# Scripts to be run such as tests
+before_script:
+  - echo "no tests"
+script:
+  - docker --version # print the version for logging
+  - docker build -t udagram-users-api -f udagram-users-api/Dockerfile .
+  - docker tag udagram-users-api sanchimenea/udagram-users-api:latest
+  - docker build -t udagram-feed-api -f udagram-feed-api/Dockerfile .
+  - docker tag udagram-feed-api sanchimenea/udagram-feed-api:latest
+  - docker build -t udagram-front-end -f udagram-frontend/Dockerfile .
+  - docker tag udagram-front-end sanchimenea/udagram-front-end:latest
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push sanchimenea/udagram-users-api
+  - docker push sanchimenea/udagram-feed-api
+  - docker push sanchimenea/udagram-front-end
