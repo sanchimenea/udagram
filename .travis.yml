@@ -15,8 +15,8 @@ script:
   - docker tag udagram-users-api sanchimenea/udagram-users-api:latest
   - docker build -t udagram-feed-api -f udagram-feed-api/Dockerfile .
   - docker tag udagram-feed-api sanchimenea/udagram-feed-api:latest
-  - docker build -t udagram-front-end -f udagram-frontend/Dockerfile .
-  - docker tag udagram-front-end sanchimenea/udagram-front-end:latest
+  - docker build -t udagram-frontend -f udagram-frontend/Dockerfile .
+  - docker tag udagram-frontend sanchimenea/udagram-frontend:latest
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push sanchimenea/udagram-users-api
